@@ -1,0 +1,34 @@
+name: Verify site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate embedded JavaScript syntax
+        run: |
+          node -e '
+            const fs = require("fs");
+            const html = fs.readFileSync("index.html", "utf8");
+            const m = html.match(/<script>([\s\S]*?)<\/script>/);
+            if (!m) throw new Error("No script block found in index.html");
+            new Function(m[1]);
+            console.log("Embedded JS parses cleanly");
+          '
+      - name: Check design invariants
+        run: |
+          python3 - <<'EOF'
+          from pathlib import Path
+          t = Path("index.html").read_text()
+          assert "releases/latest" in t, "Release button must link /releases/latest, not a pinned tag"
+          assert "/status" in t, "API explorer must expose /status"
+          assert "codebyaurora.com/simple/" in t, "Quickstart must link project package index"
+          assert "data.cpu" not in t, "Must not reference stale collector schema (data.cpu)"
+          assert "data.system" not in t, "Must not reference stale collector schema (data.system)"
+          print("All design invariants hold")
+          EOF
