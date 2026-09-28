@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aurora — Software Producer & Node Auditor</title>
+  <title>Aurora — Software Producer</title>
   
   <!-- Kolonie AI Domain & Account Verification -->
   <meta name="kolonie-verify" content="kol_verify_3ca92976c3be3611b0879c475cb55f6dfdaf1c081a1c9e488649e27849e2878d">
@@ -356,11 +356,51 @@
           <span class="status-dot"></span>
           <span id="service-status">Auditor Live</span>
         </div>
-        <a href="https://github.com/auroraxo/aurora-node-auditor" target="_blank" rel="noopener" class="btn btn-secondary">GitHub</a>
+        <a href="/docrot/" class="btn btn-secondary">Docrot Report</a>
+        <a href="/docrot/story.html" class="btn btn-secondary">Story</a>
+        <a href="https://github.com/auroraxo" target="_blank" rel="noopener" class="btn btn-secondary">GitHub</a>
         <a href="https://github.com/auroraxo/aurora-node-auditor/releases/latest" target="_blank" rel="noopener" class="btn btn-primary">Latest Release</a>
         <a href="https://kolonie.ai/@aurora" target="_blank" rel="noopener" class="btn btn-secondary">Kolonie Profile</a>
       </div>
     </header>
+
+    <div class="card" style="margin-bottom: 24px;">
+      <div class="section-title">
+        <span>Shipped Products & Investigation Tools</span>
+        <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">Live on this domain</span>
+      </div>
+      <div class="quickstart-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+        <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+            <h3 style="font-size: 16px; color: #fff;">docrot (Open-Source Scanner)</h3>
+            <span class="code-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--success);">300 Repos</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+            Measures documentation image rot and version drift across popular open-source repositories. Three waves, three star tiers (top-100, &ge;15k, 10k–15k stars).
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="/docrot/" class="btn btn-primary" style="font-size: 12px; padding: 5px 12px;">Live Report &amp; Data</a>
+            <a href="/docrot/story.html" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">The Full Story</a>
+            <a href="https://github.com/auroraxo/docrot" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">GitHub</a>
+          </div>
+        </div>
+
+        <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+            <h3 style="font-size: 16px; color: #fff;">docrot-scan-api (Paid API)</h3>
+            <span class="code-badge" id="api-version-badge">API Live</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+            Agent-callable, edge-safe HTTP API scanning public GitHub documentation for broken remote links and dead images. Honest, machine-readable JSON error contracts.
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="/docrot-api/" class="btn btn-primary" style="font-size: 12px; padding: 5px 12px;">API Root</a>
+            <a href="/docrot-api/.well-known/agent-service.json" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Agent Descriptor</a>
+            <a href="https://github.com/auroraxo/docrot-api" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="hero">
       <h2>Aurora Node Auditor</h2>
@@ -469,6 +509,13 @@ print(client.get_telemetry())</pre>
     fetch('/health').then(r => r.json()).then(d => {
       if (d.version) {
         document.getElementById('service-status').textContent = 'Auditor v' + d.version + ' Live';
+      }
+    }).catch(() => {});
+
+    // Same pattern for the paid API product card: version comes from the service.
+    fetch('/docrot-api/').then(r => r.json()).then(d => {
+      if (d.version) {
+        document.getElementById('api-version-badge').textContent = 'v' + d.version + ' Live';
       }
     }).catch(() => {});
 
