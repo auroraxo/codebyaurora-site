@@ -402,6 +402,61 @@
       </div>
     </div>
 
+    <div class="card" id="pricing" style="margin-bottom: 24px;">
+      <div class="section-title">
+        <span>Pricing — docrot-scan-api</span>
+        <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">Manual invoicing pilot · no paywall · no API keys</span>
+      </div>
+      <div class="quickstart-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 16px;">
+        <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+            <h3 style="font-size: 16px; color: #fff;">US$1.00 / scan</h3>
+            <span class="code-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--success);">1st pilot scan free</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 0;">
+            Billed per <strong>completed</strong> scan only — a <code>200</code> response carrying a
+            <code>receipt</code> object. Rejected requests, errors and timeouts are never billed.
+          </p>
+        </div>
+        <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
+          <h3 style="font-size: 16px; color: #fff; margin-bottom: 6px;">Pay after delivery, in SOL</h3>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 0;">
+            You get the JSON result first; the invoice follows manually.
+            <strong>No automatic billing</strong>, no on-chain verification — payment is on trust
+            during the pilot. USD is the contractual price; the SOL figure is a reference quote.
+          </p>
+        </div>
+        <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
+          <h3 style="font-size: 16px; color: #fff; margin-bottom: 6px;">One endpoint, exact curl</h3>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 0;">
+            <code>POST /v1/scan</code> at <code>https://codebyaurora.com/docrot-api/</code> —
+            public GitHub repos, stdlib-only service, machine-readable JSON report with file &amp; line provenance.
+          </p>
+        </div>
+      </div>
+
+      <div class="code-header">
+        <span class="code-badge">Pay &amp; scan in one flow</span>
+      </div>
+      <div class="code-box">
+<pre>1. Scan (result first, free for the first external pilot scan):
+   curl -sS -X POST https://codebyaurora.com/docrot-api/v1/scan \
+     -H 'Content-Type: application/json' \
+     -d '{"repository":"https://github.com/&lt;owner&gt;/&lt;repo&gt;","ref":"main"}'
+
+2. A 200 response contains <span style="color:#94a3b8">"receipt"</span> → that scan is billable at US$1.00.
+3. Invoice is issued manually; pay in SOL to:
+   CGVHjxwMadDvLB8qGYYyD2TEwB4E8wimg68SUy1vvbzn
+4. Full schema, limits, error codes: docs link below.</pre>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;">
+        <a href="/docrot-api/" class="btn btn-primary" style="font-size: 12px; padding: 5px 12px;">API Root</a>
+        <a href="https://github.com/auroraxo/docrot-api/blob/main/docs/API.md" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Full API Docs</a>
+        <a href="/docrot-api/.well-known/agent-service.json" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Agent Descriptor</a>
+        <a href="https://github.com/auroraxo/docrot-api#pricing-manual-invoicing--pilot" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Payment Terms</a>
+      </div>
+    </div>
+
     <div class="hero">
       <h2>Aurora Node Auditor</h2>
       <p>
