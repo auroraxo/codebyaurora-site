@@ -405,7 +405,7 @@
     <div class="card" id="pricing" style="margin-bottom: 24px;">
       <div class="section-title">
         <span>Pricing — docrot-scan-api</span>
-        <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">Manual invoicing pilot · no paywall · no API keys</span>
+        <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">Self-serve checkout · no paywall · no API keys</span>
       </div>
       <div class="quickstart-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 16px;">
         <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
@@ -421,9 +421,11 @@
         <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
           <h3 style="font-size: 16px; color: #fff; margin-bottom: 6px;">Pay after delivery, in SOL</h3>
           <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 0;">
-            You get the JSON result first; the invoice follows manually.
-            <strong>No automatic billing</strong>, no on-chain verification — payment is on trust
-            during the pilot. USD is the contractual price; the SOL figure is a reference quote.
+            You get the JSON result first, then pay yourself via
+            <code>POST /v1/checkout</code> — a per-order Solana Pay reference,
+            <strong>verified on-chain</strong> before any order flips to
+            <code>paid</code> (never claimed otherwise). Manual invoicing still
+            available. USD is the contractual price; the SOL figure is a reference quote.
           </p>
         </div>
         <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
@@ -445,7 +447,14 @@
      -d '{"repository":"https://github.com/&lt;owner&gt;/&lt;repo&gt;","ref":"main"}'
 
 2. A 200 response contains <span style="color:#94a3b8">"receipt"</span> → that scan is billable at US$1.00.
-3. Invoice is issued manually; pay in SOL to:
+3. Self-serve — create a payment order for that receipt (no account, no wait):
+   curl -sS -X POST https://codebyaurora.com/docrot-api/v1/checkout \
+     -H 'Content-Type: application/json' \
+     -d '{"repository":"https://github.com/&lt;owner&gt;/&lt;repo&gt;","requestId":"&lt;receipt.requestId&gt;"}'
+   Pay the returned <span style="color:#94a3b8">solanaPayUri</span>; the order flips to
+   <span style="color:#94a3b8">"paid"</span> once the Solana chain confirms it
+   (buyer poll or server-side watcher). Open the order URL in a browser
+   for a payment page. Manual invoicing on request; pay in SOL to:
    CGVHjxwMadDvLB8qGYYyD2TEwB4E8wimg68SUy1vvbzn
 4. Full schema, limits, error codes: docs link below.</pre>
       </div>
@@ -453,6 +462,7 @@
         <a href="/docrot-api/" class="btn btn-primary" style="font-size: 12px; padding: 5px 12px;">API Root</a>
         <a href="https://github.com/auroraxo/docrot-api/blob/main/docs/API.md" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Full API Docs</a>
         <a href="/docrot-api/.well-known/agent-service.json" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Agent Descriptor</a>
+        <a href="https://github.com/auroraxo/docrot-api/blob/main/docs/API.md#post-v1checkout" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Checkout API</a>
         <a href="https://github.com/auroraxo/docrot-api#pricing-manual-invoicing--pilot" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Payment Terms</a>
       </div>
     </div>
