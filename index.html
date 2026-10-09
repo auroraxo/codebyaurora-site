@@ -339,6 +339,38 @@
       font-size: 12px;
       color: #64748b;
     }
+
+    .scan-form {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .scan-form input {
+      flex: 1;
+      min-width: 240px;
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 9px 12px;
+      font-size: 13px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .scan-form input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .scan-out { font-size: 13px; }
+    .scan-out table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 8px 0; }
+    .scan-out th, .scan-out td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--card-border); }
+    .scan-out th { color: var(--text-muted); text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+    .scan-out td.url { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; color: var(--warning); }
+    .muted { color: var(--text-muted); }
+    .ok { color: var(--success); }
   </style>
 </head>
 <body>
@@ -465,6 +497,26 @@
         <a href="https://github.com/auroraxo/docrot-api/blob/main/docs/API.md#post-v1checkout" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Checkout API</a>
         <a href="https://github.com/auroraxo/docrot-api#pricing-manual-invoicing--pilot" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Payment Terms</a>
       </div>
+    </div>
+
+    <div class="card" id="scan-live" style="margin-bottom: 24px;">
+      <div class="section-title">
+        <span>Live Scan — try it in the browser</span>
+        <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">No API key · no account · result first</span>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+        Enter any public GitHub repository. You get the broken-link report instantly;
+        the receipt's <code>selfServe</code> block then opens a US$1.00 checkout with
+        on-chain payment detection. First external pilot scan is free.
+      </p>
+      <form class="scan-form" onsubmit="return runScan(event)">
+        <input id="scan-repo" type="text" placeholder="https://github.com/owner/repo"
+               value="https://github.com/auroraxo/aurora-node-auditor" required>
+        <input id="scan-ref" type="text" placeholder="ref (main)" value="main" style="max-width: 140px;" required>
+        <button type="submit" class="btn btn-primary" id="scan-btn">Run free scan</button>
+      </form>
+      <div class="code-badge" id="scan-state">idle</div>
+      <div class="scan-out" id="scan-out"></div>
     </div>
 
     <div class="hero">
@@ -647,6 +699,130 @@ print(client.get_telemetry())</pre>
     fetchTelemetry();
     testActiveEndpoint();
     setInterval(fetchTelemetry, 5000);
+
+    const esc = s => String(s).replace(/[&<>"']/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    async function runScan(ev) {
+      ev.preventDefault();
+      const repo = document.getElementById('scan-repo').value.trim();
+      const ref = document.getElementById('scan-ref').value.trim();
+      const btn = document.getElementById('scan-btn');
+      const state = document.getElementById('scan-state');
+      const out = document.getElementById('scan-out');
+      btn.disabled = true;
+      state.textContent = 'scanning…';
+      state.style.color = 'var(--accent)';
+      out.innerHTML = '';
+      try {
+        const res = await fetch('/docrot-api/v1/scan', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({repository: repo, ref: ref})
+        });
+        const data = await res.json();
+        if (data.error) {
+          state.textContent = 'error: ' + data.error.code;
+          state.style.color = 'var(--warning)';
+          out.innerHTML = '<p class="muted">' + esc(data.error.message) + '</p>';
+          return false;
+        }
+        const broken = data.broken || [];
+        state.textContent = 'complete — ' + data.checkedUrls + ' URLs, ' + broken.length + ' broken';
+        state.style.color = broken.length ? 'var(--warning)' : 'var(--success)';
+        let html = '<p class="muted">requestId <code>' + esc(data.requestId) + '</code> · '
+          + data.scannedFiles + ' file(s) · ' + data.durationMs + 'ms</p>';
+        if (broken.length) {
+          html += '<table><tr><th>Broken URL</th><th>Source</th><th>Status</th></tr>';
+          for (const b of broken) {
+            html += '<tr><td class="url">' + esc(b.url) + '</td><td class="muted">' + esc(b.source) + ':' + b.line
+              + '</td><td>' + esc(b.status || b.error || '-') + '</td></tr>';
+          }
+          html += '</table>';
+        } else {
+          html += '<p class="ok">✓ No broken links or dead images found.</p>';
+        }
+        if (data.receipt && data.receipt.billing) {
+          const b = data.receipt.billing;
+          html += '<p class="muted" style="margin-top:10px;">Receipt <code>' + esc(data.receipt.requestId)
+            + '</code> · billable <strong>US$' + b.amountDueUsd.toFixed(2) + '</strong> ('
+            + esc(b.amountDue) + ' SOL)' + (b.pilotFree ? ' · <span class="ok">first pilot scan free</span>' : '') + '</p>';
+          html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">'
+            + '<button class="btn btn-primary" style="font-size:12px;padding:5px 12px;" '
+            + 'onclick="createOrder(\'' + esc(data.receipt.requestId) + '\',\'' + esc(data.receipt.repository) + '\')">'
+            + 'Pay US$1.00 for this scan</button>'
+            + '<a class="btn btn-secondary" style="font-size:12px;padding:5px 12px;" target="_blank" rel="noopener" '
+            + 'href="https://github.com/auroraxo/docrot-api/blob/main/docs/API.md#post-v1scan">API reference</a>'
+            + '</div><div id="order-out"></div>';
+        }
+        out.innerHTML = html;
+      } catch (e) {
+        state.textContent = 'request failed';
+        state.style.color = 'var(--warning)';
+        out.innerHTML = '<p class="muted">' + esc(e.message) + '</p>';
+      } finally {
+        btn.disabled = false;
+      }
+      return false;
+    }
+
+    async function createOrder(requestId, repository) {
+      const out = document.getElementById('order-out');
+      const state = document.getElementById('scan-state');
+      state.textContent = 'creating order…';
+      state.style.color = 'var(--accent)';
+      out.innerHTML = '<p class="muted">Opening checkout…</p>';
+      try {
+        const res = await fetch('/docrot-api/v1/checkout', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({requestId: requestId, repository: repository})
+        });
+        const data = await res.json();
+        if (data.error) {
+          state.textContent = 'order error: ' + data.error.code;
+          state.style.color = 'var(--warning)';
+          out.innerHTML = '<p class="muted">' + esc(data.error.message) + '</p>';
+          return;
+        }
+        state.textContent = 'order ' + data.orderId + ' pending';
+        state.style.color = 'var(--accent)';
+        const orderId = data.orderId;
+        const pay = data.payment || {};
+        const payPage = '/docrot-api/v1/checkout/' + orderId;
+        out.innerHTML = '<div class="code-box" style="margin-top:8px;">'
+          + '<p style="margin:0 0 8px;">Order <code>' + esc(orderId) + '</code> · '
+          + esc(pay.amount || '?') + ' SOL to <code>' + esc(pay.payTo || '?') + '</code></p>'
+          + '<p style="margin:0 0 8px;">Reference: <code>' + esc(pay.reference || '?') + '</code></p>'
+          + '<div style="display:flex;gap:8px;flex-wrap:wrap;">'
+          + '<a class="btn btn-primary" style="font-size:12px;padding:5px 12px;" target="_blank" rel="noopener" href="'
+          + payPage + '">Open payment page</a>'
+          + (pay.solanaPayUri ? '<a class="btn btn-secondary" style="font-size:12px;padding:5px 12px;" href="'
+             + esc(pay.solanaPayUri) + '">Solana Pay URI</a>' : '')
+          + '<button class="btn btn-secondary" style="font-size:12px;padding:5px 12px;" onclick="checkOrder(\''
+          + esc(orderId) + '\')">Check payment status</button>'
+          + '</div><div id="pay-status" style="margin-top:8px;"></div>'
+          + '</div>';
+      } catch (e) {
+        state.textContent = 'order failed';
+        state.style.color = 'var(--warning)';
+        out.innerHTML = '<p class="muted">' + esc(e.message) + '</p>';
+      }
+    }
+
+    async function checkOrder(orderId) {
+      const el = document.getElementById('pay-status');
+      el.innerHTML = '<span class="muted">checking chain…</span>';
+      try {
+        const res = await fetch('/docrot-api/v1/checkout/' + orderId);
+        const d = await res.json();
+        const paid = d.status === 'paid';
+        el.innerHTML = '<span style="color:' + (paid ? 'var(--success)' : 'var(--warning)') + '">status: '
+          + esc(d.status) + (paid ? ' ✓ paid via ' + esc(d.paidVia || 'chain') : ' — watcher re-checks every minute') + '</span>';
+      } catch (e) {
+        el.innerHTML = '<span class="muted">' + esc(e.message) + '</span>';
+      }
+    }
   </script>
 </body>
 </html>
