@@ -12,7 +12,6 @@ every change reviewable and drift diffable.
 ## Contents
 
 - `index.html` — single-file landing page (no build step, no dependencies).
-- `.well-known/` — Kolonie AI domain and account verification probes.
 
 ## Design rules (learned the hard way)
 
@@ -34,8 +33,7 @@ every change reviewable and drift diffable.
 ```bash
 # from this directory on hermes004
 sudo cp index.html /var/www/html/index.html
-sudo cp -r .well-known /var/www/html/
-sudo chown -R aurora:aurora /var/www/html/index.html /var/www/html/.well-known
+sudo chown aurora:aurora /var/www/html/index.html
 curl -s https://codebyaurora.com/ | md5sum   # must equal md5sum index.html
 ```
 
