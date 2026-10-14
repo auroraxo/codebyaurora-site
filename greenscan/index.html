@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>greenscan — free n8n silent-failure audit</title>
+  <meta name="description" content="Free, read-only n8n reliability audit. One file, no dependencies, no account. Detects the six failure classes the n8n community named: hard errors, missed runs, early-end successes, empty outputs, continueRegularOutput+alwaysOutputData traps, and zombie workflows.">
+  <link rel="canonical" href="https://codebyaurora.com/greenscan/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="greenscan — free n8n silent-failure audit">
+  <meta property="og:description" content="Point it at your n8n instance. One page of findings in 30 seconds. Read-only, no account, no telemetry.">
+  <meta property="og:url" content="https://codebyaurora.com/greenscan/">
+  <meta property="og:site_name" content="Aurora — codebyaurora.com">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="greenscan — free n8n silent-failure audit">
+  <meta name="twitter:description" content="Point it at your n8n instance. One page of findings in 30 seconds. Read-only, no account, no telemetry.">
+
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111726;
+      --card-border: #1e293b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.15);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #f87171;
+      --code-bg: #0d1117;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 24px 16px;
+      min-height: 100vh;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 20px; border-bottom: 1px solid var(--card-border);
+      margin-bottom: 32px; flex-wrap: wrap; gap: 12px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 18px; color: #090d16;
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+    .brand-text h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+    .brand-text p { font-size: 13px; color: var(--text-muted); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .tag {
+      display: inline-block; background: var(--card-bg); border: 1px solid var(--card-border);
+      padding: 4px 12px; border-radius: 9999px; font-size: 12px; color: var(--text-muted);
+    }
+    h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 12px; }
+    h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+    .lead { color: var(--text-muted); font-size: 16px; margin-bottom: 24px; }
+    .card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius); padding: 20px; margin-bottom: 16px;
+    }
+    .checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 24px; }
+    .check {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius); padding: 14px 16px;
+    }
+    .check .tag-id {
+      display: inline-block; background: var(--code-bg); border: 1px solid var(--card-border);
+      color: var(--accent); font-family: ui-monospace, monospace; font-size: 12px;
+      padding: 2px 8px; border-radius: 6px; margin-bottom: 6px;
+    }
+    .check p { font-size: 14px; color: var(--text-muted); }
+    pre {
+      background: var(--code-bg); border: 1px solid var(--card-border);
+      border-radius: 8px; padding: 16px; overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px;
+      line-height: 1.5; margin-bottom: 16px; color: #e2e8f0;
+    }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.92em; }
+    p code, li code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--card-border); }
+    ul { margin: 8px 0 8px 20px; }
+    li { margin-bottom: 6px; color: var(--text-muted); }
+    li strong, p strong { color: var(--text); }
+    .cta {
+      display: inline-block; background: var(--accent); color: #090d16;
+      font-weight: 600; padding: 12px 24px; border-radius: 8px; margin-right: 12px;
+      margin-bottom: 8px;
+    }
+    .cta:hover { text-decoration: none; filter: brightness(1.1); }
+    .cta-ghost {
+      display: inline-block; background: transparent; color: var(--accent);
+      border: 1px solid var(--accent); font-weight: 600;
+      padding: 12px 24px; border-radius: 8px; margin-bottom: 8px;
+    }
+    .cta-ghost:hover { text-decoration: none; background: var(--accent-glow); }
+    footer {
+      margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--card-border);
+      font-size: 13px; color: var(--text-muted);
+    }
+    .stat-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+    .stat {
+      flex: 1; min-width: 160px; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--radius);
+      padding: 16px; text-align: center;
+    }
+    .stat .num { font-size: 24px; font-weight: 700; color: var(--accent); }
+    .stat .lbl { font-size: 12px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="avatar">A</div>
+        <div class="brand-text">
+          <h1>greenscan</h1>
+          <p>free n8n silent-failure audit · codebyaurora.com</p>
+        </div>
+      </div>
+      <span class="tag">v0.1.0 · MIT · read-only</span>
+    </header>
+
+    <section>
+      <h2>Your execution list is a wall of green. Is it true?</h2>
+      <p class="lead">
+        n8n reports what the engine did, not what your business did. A run can finish
+        green while the message never sent, the row never wrote, or the branch never
+        fired — and you find out days later, from a client. <strong>greenscan</strong>
+        is a one-shot, read-only audit that reads your instance's workflows and recent
+        executions and hands you a one-page report of the six failure classes the n8n
+        community has actually named.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat"><div class="num">$2.5k–$8k</div><div class="lbl">reported cost per silent-failure incident (community.n8n.io/t/316526)</div></div>
+        <div class="stat"><div class="num">48h–3 weeks</div><div class="lbl">time to notice, per the same thread</div></div>
+        <div class="stat"><div class="num">6–15 h</div><div class="lbl">billable diagnosis time to find one</div></div>
+      </div>
+
+      <div class="checks">
+        <div class="check"><span class="tag-id">A hard_error</span>
+          <p>Recent executions that threw. n8n's Error Workflow already catches these — flagged only when many.</p></div>
+        <div class="check"><span class="tag-id">B missed_run</span>
+          <p>An active scheduled workflow whose last execution is older than your window.</p></div>
+        <div class="check"><span class="tag-id">C early_end</span>
+          <p>A green execution that stopped before the workflow's last node — the classic "ran, didn't finish".</p></div>
+        <div class="check"><span class="tag-id">D empty_output</span>
+          <p>Successful runs producing zero items, at ≥50% of a workflow's recent successes (n≥5, so small samples don't lie).</p></div>
+        <div class="check"><span class="tag-id">E coaf_risk</span>
+          <p>A node with both <code>onError: continueRegularOutput</code> and <code>alwaysOutputData: true</code> — downstream 5xx becomes a green run that still writes state. This is the exact trap behind the 13-burned-touches incident in the community thread.</p></div>
+        <div class="check"><span class="tag-id">F zombie</span>
+          <p>Active scheduled workflow with no executions in the window at all.</p></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Run it in 30 seconds</h3>
+      <pre>curl -sSL https://raw.githubusercontent.com/auroraxo/greenscan/v0.1.0/greenscan.py \
+  -o greenscan.py
+
+export N8N_API_KEY="n8n_api_xxx"    # Settings → n8n API
+python3 greenscan.py --base-url https://n8n.example.com</pre>
+      <p>Exit code <code>1</code> means findings. <code>--json</code> for machines, <code>--dry-run</code> for a demo without an instance, <code>--days N</code> to widen the window.
+      Python ≥ 3.8, zero non-stdlib dependencies.</p>
+    </section>
+
+    <section class="card">
+      <h3>What it is — and what it isn't</h3>
+      <ul>
+        <li><strong>Is:</strong> a free, read-only, one-shot audit. No account, no signup, no telemetry. The API key never leaves your machine and is never written to disk.</li>
+        <li><strong>Isn't:</strong> a monitor, an alerter, or an outcome verifier. It cannot tell you whether WhatsApp actually delivered or Stripe actually settled — it reads n8n's API and nothing else.</li>
+        <li><strong>Won't:</strong> modify your instance, install nodes, or change settings. <code>workflow:read</code> + <code>execution:read</code> scopes are enough (Enterprise scoped keys).</li>
+      </ul>
+      <p>If the report comes back empty, you didn't need a paid monitor yet. If it flags <code>coaf_risk</code> on your production cadence, you now know exactly what you'd be buying.</p>
+    </section>
+
+    <section>
+      <a class="cta" href="https://github.com/auroraxo/greenscan">View on GitHub</a>
+      <a class="cta-ghost" href="https://github.com/auroraxo/greenscan#use">Read the docs</a>
+    </section>
+
+    <section class="card" style="margin-top:16px;">
+      <h3>Why this exists</h3>
+      <p style="font-size:14px;color:var(--text-muted);">
+        Built after reading two threads where n8n operators priced their own pain:
+        <a href="https://community.n8n.io/t/310860">community.n8n.io/t/310860</a>
+        (a WhatsApp cadence where 13 touches were burned by HTTP 500s routed through
+        <code>continueRegularOutput</code>) and
+        <a href="https://community.n8n.io/t/316526">community.n8n.io/t/316526</a>
+        (cost and detection time). Watchflow, Midwatch and OutcomeGuard already sell
+        continuous monitoring at $19–$99/mo and they're the right tool if you need
+        alerts. greenscan is the step before that: find out in 30 seconds whether you
+        have the problem at all.
+      </p>
+    </section>
+
+    <footer>
+      <p><a href="/">← codebyaurora.com</a> · greenscan is MIT-licensed, source at
+      <a href="https://github.com/auroraxo/greenscan">github.com/auroraxo/greenscan</a>.</p>
+    </footer>
+  </div>
+</body>
+</html>
