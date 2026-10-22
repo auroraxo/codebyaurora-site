@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aurora — Software Producer</title>
-  <meta name="description" content="docrot-scan-api: agent-callable link-rot scanner for public GitHub docs. US$1 per completed scan, self-serve Solana Pay checkout, no API keys, no paywall. First pilot scan free.">
+  <title>Aurora — Solana developer, open source for the ecosystem</title>
+  <meta name="description" content="Aurora — Solana developer, open source for the ecosystem: solana-tx-remix, idl-drift and declare-id-drift. Also docrot-scan-api: agent-callable link-rot scanner for public GitHub docs, US$1 per completed scan, self-serve Solana Pay checkout. First pilot scan free.">
   <link rel="canonical" href="https://codebyaurora.com/">
 
   <!-- Open Graph (link previews in HN, Twitter, Slack, GitHub comments) -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="docrot-scan-api — US$1 per repo, self-serve Solana Pay">
-  <meta property="og:description" content="Agent-callable link-rot scanner for public GitHub docs. Self-serve checkout, on-chain verification, no API keys. First pilot scan free.">
+  <meta property="og:title" content="Aurora — Solana developer, open source for the ecosystem">
+  <meta property="og:description" content="Published Solana tooling (solana-tx-remix, idl-drift, declare-id-drift) and open-source contributions — plus docrot-scan-api, an agent-callable link-rot scanner with self-serve checkout. First pilot scan free.">
   <meta property="og:url" content="https://codebyaurora.com/">
   <meta property="og:site_name" content="Aurora — codebyaurora.com">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="docrot-scan-api — US$1 per repo, self-serve Solana Pay">
-  <meta name="twitter:description" content="Agent-callable link-rot scanner for public GitHub docs. Self-serve checkout, on-chain verification, no API keys.">
+  <meta name="twitter:title" content="Aurora — Solana developer, open source for the ecosystem">
+  <meta name="twitter:description" content="Published Solana tooling (solana-tx-remix, idl-drift, declare-id-drift) and open-source contributions — plus docrot-scan-api, an agent-callable link-rot scanner with self-serve checkout. First pilot scan free.">
 
   <!-- Sitemap discovery -->
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
@@ -393,7 +393,7 @@
         <div class="avatar">A</div>
         <div class="brand-text">
           <h1>Aurora</h1>
-          <p>Software Producer</p>
+          <p>Solana developer · open source for the ecosystem</p>
         </div>
       </div>
       <div class="nav-links">
@@ -410,7 +410,81 @@
 
     <div class="card" style="margin-bottom: 24px;">
       <div class="section-title">
-        <span>Shipped Products & Investigation Tools</span>
+        <span>Now — Solana, in public</span>
+        <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">Current field</span>
+      </div>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 14px;">
+        Reading the smaller protocols and SDKs on Solana, shipping real contributions upstream,
+        and building tools where the ecosystem is missing something many developers need.
+        Everything below is public and re-checkable — nothing is claimed as merged that is not merged.
+      </p>
+      <div class="quickstart-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+        <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+            <h3 style="font-size: 16px; color: #fff;">solana-tx-remix</h3>
+            <span class="code-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--accent);">Published</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+            A public mainnet signature in, an editable, byte-verified transaction out — outer
+            instructions and CPI, with negative controls. Includes the measured matrix of which
+            consumer stacks can actually read a v1 message.
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="https://github.com/auroraxo/solana-tx-remix" target="_blank" rel="noopener" class="btn btn-primary" style="font-size: 12px; padding: 5px 12px;">GitHub</a>
+            <a href="https://github.com/auroraxo/solana-tx-remix#what-a-consumers-stack-does-with-a-v1-message-measured" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">v1 matrix</a>
+          </div>
+        </div>
+
+        <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+            <h3 style="font-size: 16px; color: #fff;">idl-drift</h3>
+            <span class="code-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--success);">GitHub Action</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+            Diffs a committed Anchor IDL against the on-chain IDL account of a Solana program,
+            and publishes a public drift ledger of real findings across curated mainnet programs.
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="https://github.com/auroraxo/idl-drift" target="_blank" rel="noopener" class="btn btn-primary" style="font-size: 12px; padding: 5px 12px;">GitHub</a>
+            <a href="https://auroraxo.github.io/idl-drift/ledger/" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">Drift ledger</a>
+          </div>
+        </div>
+
+        <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+            <h3 style="font-size: 16px; color: #fff;">declare-id-drift</h3>
+            <span class="code-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--success);">GitHub Action</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+            Cross-checks <code>declare_id!</code>, <code>Anchor.toml</code>, the committed IDL address and
+            the deployed keypair — fails CI when they disagree. No RPC, pure file.
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="https://github.com/auroraxo/declare-id-drift" target="_blank" rel="noopener" class="btn btn-primary" style="font-size: 12px; padding: 5px 12px;">GitHub</a>
+          </div>
+        </div>
+
+        <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+            <h3 style="font-size: 16px; color: #fff;">Upstream contributions</h3>
+            <span class="code-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--warning);">Open, awaiting review</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+            <a href="https://github.com/anza-xyz/agave/pull/16261" target="_blank" rel="noopener" style="color: var(--accent);">agave#16261</a>
+            — backport the v1 transaction display fix to the v4.3 release line.
+            <a href="https://github.com/LiteSVM/litesvm/pull/444" target="_blank" rel="noopener" style="color: var(--accent);">LiteSVM#444</a>
+            — external-memory accounting in the Node binding, fixing GC starvation.
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="https://github.com/auroraxo?tab=repositories&amp;language=&amp;q=&amp;sort=updated" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">All repositories</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 24px;">
+      <div class="section-title">
+        <span>Shipped Products &amp; Investigation Tools</span>
         <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">Live on this domain</span>
       </div>
       <div class="quickstart-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
