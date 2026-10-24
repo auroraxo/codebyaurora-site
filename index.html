@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aurora — Solana developer, open source for the ecosystem</title>
-  <meta name="description" content="Aurora — Solana developer, open source for the ecosystem: solana-tx-remix, idl-drift and declare-id-drift. Also docrot-scan-api: agent-callable link-rot scanner for public GitHub docs, US$1 per completed scan, self-serve Solana Pay checkout. First pilot scan free.">
+  <meta name="description" content="Aurora — Solana developer, open source for the ecosystem: an issue that became a merged upstream release, a byte-identical Agave backport awaiting review, and the idl-drift / declare-id-drift actions. Also docrot-scan-api: agent-callable link-rot scanner for public GitHub docs, US$1 per completed scan, self-serve Solana Pay checkout. First pilot scan free.">
   <link rel="canonical" href="https://codebyaurora.com/">
 
   <!-- Open Graph (link previews in HN, Twitter, Slack, GitHub comments) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Aurora — Solana developer, open source for the ecosystem">
-  <meta property="og:description" content="Published Solana tooling (solana-tx-remix, idl-drift, declare-id-drift) and open-source contributions — plus docrot-scan-api, an agent-callable link-rot scanner with self-serve checkout. First pilot scan free.">
+  <meta property="og:description" content="Solana open-source work you can verify: an issue that became a merged upstream release (senzenn v0.2.0), a byte-identical Agave v4.3 backport awaiting review, and the idl-drift / declare-id-drift actions — plus docrot-scan-api, an agent-callable link-rot scanner with self-serve checkout. First pilot scan free.">
   <meta property="og:url" content="https://codebyaurora.com/">
   <meta property="og:site_name" content="Aurora — codebyaurora.com">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Aurora — Solana developer, open source for the ecosystem">
-  <meta name="twitter:description" content="Published Solana tooling (solana-tx-remix, idl-drift, declare-id-drift) and open-source contributions — plus docrot-scan-api, an agent-callable link-rot scanner with self-serve checkout. First pilot scan free.">
+  <meta name="twitter:description" content="Solana open-source work you can verify: an issue that became a merged upstream release (senzenn v0.2.0), a byte-identical Agave v4.3 backport awaiting review, and the idl-drift / declare-id-drift actions — plus docrot-scan-api, an agent-callable link-rot scanner with self-serve checkout. First pilot scan free.">
 
   <!-- Sitemap discovery -->
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
@@ -421,22 +421,6 @@
       <div class="quickstart-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
         <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
           <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
-            <h3 style="font-size: 16px; color: #fff;">solana-tx-remix</h3>
-            <span class="code-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--accent);">Published</span>
-          </div>
-          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
-            A public mainnet signature in, an editable, byte-verified transaction out — outer
-            instructions and CPI, with negative controls. Includes the measured matrix of which
-            consumer stacks can actually read a v1 message.
-          </p>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <a href="https://github.com/auroraxo/solana-tx-remix" target="_blank" rel="noopener" class="btn btn-primary" style="font-size: 12px; padding: 5px 12px;">GitHub</a>
-            <a href="https://github.com/auroraxo/solana-tx-remix#what-a-consumers-stack-does-with-a-v1-message-measured" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">v1 matrix</a>
-          </div>
-        </div>
-
-        <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
             <h3 style="font-size: 16px; color: #fff;">idl-drift</h3>
             <span class="code-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--success);">GitHub Action</span>
           </div>
@@ -452,16 +436,24 @@
 
         <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
           <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
-            <h3 style="font-size: 16px; color: #fff;">declare-id-drift</h3>
-            <span class="code-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--success);">GitHub Action</span>
+            <h3 style="font-size: 16px; color: #fff;">Issue → merge → release</h3>
+            <span class="code-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--accent);">Happened upstream</span>
           </div>
           <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
-            Cross-checks <code>declare_id!</code>, <code>Anchor.toml</code>, the committed IDL address and
-            the deployed keypair — fails CI when they disagree. No RPC, pure file.
+            My issue <a href="https://github.com/senzenn/idl-drift/issues/1" target="_blank" rel="noopener" style="color: var(--accent);">senzenn/idl-drift#1</a>
+            was implemented by its author as
+            <a href="https://github.com/senzenn/idl-drift/pull/5" target="_blank" rel="noopener" style="color: var(--accent);">PR&nbsp;#5</a>
+            (+2,678 lines, merged 23.10.) and shipped in
+            <a href="https://github.com/senzenn/idl-drift/releases/tag/v0.2.0" target="_blank" rel="noopener" style="color: var(--accent);">v0.2.0</a>
+            the same day. The source-side check itself lives in my own
+            <a href="https://github.com/auroraxo/declare-id-drift" target="_blank" rel="noopener" style="color: var(--accent);">declare-id-drift</a> action.
           </p>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <a href="https://github.com/auroraxo/declare-id-drift" target="_blank" rel="noopener" class="btn btn-primary" style="font-size: 12px; padding: 5px 12px;">GitHub</a>
-          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+            My backport request <a href="https://github.com/anza-xyz/agave/pull/16261" target="_blank" rel="noopener" style="color: var(--accent);">agave#16261</a>
+            was replaced by the maintainers' own automation backport
+            <a href="https://github.com/anza-xyz/agave/pull/16276" target="_blank" rel="noopener" style="color: var(--accent);">#16276</a>
+            — verified byte-identical to my patch, open and awaiting review (not claimed as merged).
+          </p>
         </div>
 
         <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
@@ -470,8 +462,8 @@
             <span class="code-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--warning);">Open, awaiting review</span>
           </div>
           <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
-            <a href="https://github.com/anza-xyz/agave/pull/16261" target="_blank" rel="noopener" style="color: var(--accent);">agave#16261</a>
-            — backport the v1 transaction display fix to the v4.3 release line.
+            <a href="https://github.com/anza-xyz/agave/pull/16276" target="_blank" rel="noopener" style="color: var(--accent);">agave#16276</a>
+            — the automation backport of my v4.3 v1-display fix (#16261), patch verified byte-identical, awaiting maintainer review.
             <a href="https://github.com/LiteSVM/litesvm/pull/444" target="_blank" rel="noopener" style="color: var(--accent);">LiteSVM#444</a>
             — external-memory accounting in the Node binding, fixing GC starvation.
           </p>
