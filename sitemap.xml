@@ -11,6 +11,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://codebyaurora.com/befund/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://codebyaurora.com/docrot/</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
