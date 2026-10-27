@@ -30,5 +30,12 @@ jobs:
           assert "codebyaurora.com/simple/" in t, "Quickstart must link project package index"
           assert "data.cpu" not in t, "Must not reference stale collector schema (data.cpu)"
           assert "data.system" not in t, "Must not reference stale collector schema (data.system)"
+          assert 'href="/solana-findings/"' in t, "Homepage must link the English findings URL"
+          sitemap = Path("sitemap.xml").read_text()
+          findings = Path("solana-findings/index.html").read_text()
+          assert "https://codebyaurora.com/solana-findings/" in sitemap
+          assert '<link rel="canonical" href="https://codebyaurora.com/solana-findings/">' in findings
+          assert "/befund/" not in t + sitemap + findings, "Old URL must not be published as canonical"
+          assert Path("solana-findings/evidence/issues-2026-10.json").is_file()
           print("All design invariants hold")
           EOF
