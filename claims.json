@@ -58,8 +58,10 @@
       "expectState": "OPEN",
       "expectMerged": false,
       "expectNoReviews": true,
+      "expectNoComments": true,
+      "expectCreatedDate": "2026-10-21",
       "publishedOn": ["index.html"],
-      "publishedAs": "open since 04.11., no comment and no review yet"
+      "publishedAs": "open since 21.10., no comment and no review yet"
     },
     {
       "id": "idl-finding-jup-95",
@@ -67,7 +69,9 @@
       "repo": "jup-ag/rfq-webhook-toolkit",
       "number": 95,
       "expectState": "open",
-      "publishedOn": ["solana-findings/index.html"],
+      "expectCommentCount": 0,
+      "expectCommentAuthors": ["auroraxo"],
+      "publishedOn": ["index.html", "solana-findings/index.html"],
       "publishedAs": "still open with no maintainer reply"
     },
     {
@@ -76,7 +80,9 @@
       "repo": "raydium-io/raydium-idl",
       "number": 6,
       "expectState": "open",
-      "publishedOn": ["solana-findings/index.html"],
+      "expectCommentCount": 0,
+      "expectCommentAuthors": ["auroraxo"],
+      "publishedOn": ["index.html", "solana-findings/index.html"],
       "publishedAs": "still open with no maintainer reply"
     },
     {
@@ -85,7 +91,9 @@
       "repo": "Dual-Finance/staking-options",
       "number": 73,
       "expectState": "open",
-      "publishedOn": ["solana-findings/index.html"],
+      "expectCommentCount": 1,
+      "expectCommentAuthors": ["auroraxo"],
+      "publishedOn": ["index.html", "solana-findings/index.html"],
       "publishedAs": "still open with no maintainer reply"
     },
     {
@@ -94,7 +102,9 @@
       "repo": "marinade-finance/marinade-ts-sdk",
       "number": 111,
       "expectState": "open",
-      "publishedOn": ["solana-findings/index.html"],
+      "expectCommentCount": 2,
+      "expectCommentAuthors": ["auroraxo"],
+      "publishedOn": ["index.html", "solana-findings/index.html"],
       "publishedAs": "still open with no maintainer reply"
     },
     {
@@ -103,11 +113,14 @@
       "repo": "openbook-dex/openbook-v2",
       "number": 294,
       "expectState": "open",
-      "publishedOn": ["solana-findings/index.html"],
+      "expectCommentCount": 1,
+      "expectCommentAuthors": ["auroraxo"],
+      "publishedOn": ["index.html", "solana-findings/index.html"],
       "publishedAs": "still open with no maintainer reply"
     }
   ],
   "forbiddenPhrases": [
+    "open since 04.11.",
     "byte-identical Agave v4.3 backport awaiting review",
     "open and awaiting review (not claimed as merged)",
     "awaiting maintainer review",

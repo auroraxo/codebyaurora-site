@@ -91,6 +91,16 @@ if (!offline) {
             check(`${c.id}:no-reviews`, Array.isArray(reviews) && reviews.length === 0,
               `reviews=${Array.isArray(reviews) ? reviews.length : 'n/a'}`);
           }
+          if (c.expectNoComments) {
+            const comments = await api(`/repos/${c.repo}/issues/${c.number}/comments`);
+            check(`${c.id}:no-comments`, Array.isArray(comments) && comments.length === 0,
+              `comments=${Array.isArray(comments) ? comments.length : 'n/a'}`);
+          }
+          if ('expectCreatedDate' in c) {
+            const created = (data.created_at || '').slice(0, 10);
+            check(`${c.id}:created-date`, created === c.expectCreatedDate,
+              `created=${created} expected=${c.expectCreatedDate}`);
+          }
         } else if (c.kind === 'release') {
           data = await api(`/repos/${c.repo}/releases/tags/${c.tag}`);
           const published = !data._notFound && !!data.published_at;
@@ -100,6 +110,23 @@ if (!offline) {
           data = await api(`/repos/${c.repo}/issues/${c.number}`);
           check(`${c.id}:state`, data.state === c.expectState,
             `state=${data.state} expected=${c.expectState}`);
+          // "no maintainer reply" is a claim about replies, not about state: an
+          // issue stays open with a maintainer answer, and a state-only check
+          // would keep passing while the page lied. Re-read the replies too.
+          if ('expectCommentCount' in c) {
+            const comments = await api(`/repos/${c.repo}/issues/${c.number}/comments`);
+            const authors = Array.isArray(comments)
+              ? [...new Set(comments.map((x) => x.user.login))] : null;
+            check(`${c.id}:comment-count`, Array.isArray(comments) && comments.length === c.expectCommentCount,
+              `comments=${Array.isArray(comments) ? comments.length : 'n/a'} expected=${c.expectCommentCount}`);
+            if (Array.isArray(comments) && Array.isArray(c.expectCommentAuthors)) {
+              const foreign = (authors ?? []).filter((a) => !c.expectCommentAuthors.includes(a));
+              check(`${c.id}:comment-authors`, foreign.length === 0,
+                foreign.length
+                  ? `foreign authors: ${foreign.join(', ')} (expected subset of ${c.expectCommentAuthors.join(', ')})`
+                  : `authors=${(authors ?? []).join(',') || '(none)'} (expected subset of ${c.expectCommentAuthors.join(', ')})`);
+            }
+          }
         }
       } catch (err) {
         check(`${c.id}:fetch`, false, `fetch failed: ${err.message}`, 'environment');

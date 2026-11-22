@@ -23,11 +23,16 @@ every change reviewable and drift diffable.
   still said an Agave backport was "open and awaiting review" — it had been
   closed unmerged on 2026-11-04, so the page was wrong for 18 days with nothing
   failing. That is the same silent-lie failure the bullet above describes.
-  `claims.json` pins each published claim (PR/issue state, release, exact
-  wording) to a check date, and `tools/check-claims.mjs` re-reads them live
-  against the GitHub API as a CI step. Exit 1 means the page no longer matches
-  reality: correct the page, never weaken the claim. Exit 2 (could not read)
-  fails CI too, so an unverifiable claim is never mistaken for a verified one.
+  `claims.json` pins each published claim (PR/issue state, reply count and
+  reply authors, opening date, release, exact wording) to a check date, and
+  `tools/check-claims.mjs` re-reads them live against the GitHub API as a CI
+  step. Exit 1 means the page no longer matches reality: correct the page,
+  never weaken the claim. Exit 2 (could not read) fails CI too, so an
+  unverifiable claim is never mistaken for a verified one.
+  Guard scope is the claim *kind*, not the sentence: a state-only check
+  passes while an issue sits open with a maintainer answer, and an untouched
+  "open since <date>" silently turns an update date into an opening date —
+  both happened to the first version of this guard on 2026-11-22.
 - **Bind to the real payload schema.** `fetchTelemetry()` reads
   `{node, resources: {cpu_count, load_avg, memory, disk}}` from `/telemetry`.
   When the collector schema changes, this file must change with it — the
