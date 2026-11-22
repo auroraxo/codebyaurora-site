@@ -1,0 +1,117 @@
+{
+  "note": "Every externally-checkable status claim published on this site, pinned to a check date. tools/check-claims.mjs re-reads each one live; a mismatch fails CI so the page cannot silently drift.",
+  "checkedOn": "2026-11-22",
+  "claims": [
+    {
+      "id": "senzenn-pr5-merged",
+      "kind": "pr",
+      "repo": "senzenn/idl-drift",
+      "number": 5,
+      "expectState": "MERGED",
+      "publishedOn": ["index.html", "solana-findings/index.html"],
+      "publishedAs": "merged 23.10., shipped in v0.2.0 the same day"
+    },
+    {
+      "id": "senzenn-v0.2.0-exists",
+      "kind": "release",
+      "repo": "senzenn/idl-drift",
+      "tag": "v0.2.0",
+      "expectState": "published",
+      "publishedOn": ["index.html", "solana-findings/index.html"],
+      "publishedAs": "shipped in v0.2.0"
+    },
+    {
+      "id": "agave-16261-closed-unmerged",
+      "kind": "pr",
+      "repo": "anza-xyz/agave",
+      "number": 16261,
+      "expectState": "CLOSED",
+      "expectMerged": false,
+      "publishedOn": ["index.html", "solana-findings/index.html"],
+      "publishedAs": "was replaced by the maintainers' own automation backport"
+    },
+    {
+      "id": "agave-16276-closed-unmerged",
+      "kind": "pr",
+      "repo": "anza-xyz/agave",
+      "number": 16276,
+      "expectState": "CLOSED",
+      "expectMerged": false,
+      "expectClosedAfter": "2026-11-04T00:00:00Z",
+      "publishedOn": ["index.html", "solana-findings/index.html"],
+      "publishedAs": "closed unmerged on 04.11. because mainnet moved to v4.4"
+    },
+    {
+      "id": "agave-14805-merged",
+      "kind": "pr",
+      "repo": "anza-xyz/agave",
+      "number": 14805,
+      "expectState": "MERGED",
+      "publishedOn": ["index.html", "solana-findings/index.html"],
+      "publishedAs": "the fix from upstream #14805"
+    },
+    {
+      "id": "litesvm-444-open",
+      "kind": "pr",
+      "repo": "LiteSVM/litesvm",
+      "number": 444,
+      "expectState": "OPEN",
+      "expectMerged": false,
+      "expectNoReviews": true,
+      "publishedOn": ["index.html"],
+      "publishedAs": "open since 04.11., no comment and no review yet"
+    },
+    {
+      "id": "idl-finding-jup-95",
+      "kind": "issue",
+      "repo": "jup-ag/rfq-webhook-toolkit",
+      "number": 95,
+      "expectState": "open",
+      "publishedOn": ["solana-findings/index.html"],
+      "publishedAs": "still open with no maintainer reply"
+    },
+    {
+      "id": "idl-finding-raydium-6",
+      "kind": "issue",
+      "repo": "raydium-io/raydium-idl",
+      "number": 6,
+      "expectState": "open",
+      "publishedOn": ["solana-findings/index.html"],
+      "publishedAs": "still open with no maintainer reply"
+    },
+    {
+      "id": "idl-finding-staking-73",
+      "kind": "issue",
+      "repo": "Dual-Finance/staking-options",
+      "number": 73,
+      "expectState": "open",
+      "publishedOn": ["solana-findings/index.html"],
+      "publishedAs": "still open with no maintainer reply"
+    },
+    {
+      "id": "idl-finding-marinade-111",
+      "kind": "issue",
+      "repo": "marinade-finance/marinade-ts-sdk",
+      "number": 111,
+      "expectState": "open",
+      "publishedOn": ["solana-findings/index.html"],
+      "publishedAs": "still open with no maintainer reply"
+    },
+    {
+      "id": "idl-finding-openbook-294",
+      "kind": "issue",
+      "repo": "openbook-dex/openbook-v2",
+      "number": 294,
+      "expectState": "open",
+      "publishedOn": ["solana-findings/index.html"],
+      "publishedAs": "still open with no maintainer reply"
+    }
+  ],
+  "forbiddenPhrases": [
+    "byte-identical Agave v4.3 backport awaiting review",
+    "open and awaiting review (not claimed as merged)",
+    "awaiting maintainer review",
+    "awaiting merge. I am not claiming it as merged",
+    "open, not merged"
+  ]
+}

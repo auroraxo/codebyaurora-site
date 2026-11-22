@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aurora — Solana developer, open source for the ecosystem</title>
-  <meta name="description" content="Aurora — Solana developer, open source for the ecosystem: an issue that became a merged upstream release, a byte-identical Agave backport awaiting review, and the idl-drift / declare-id-drift actions. Also docrot-scan-api: agent-callable link-rot scanner for public GitHub docs, US$1 per completed scan, self-serve Solana Pay checkout. First pilot scan free.">
+  <meta name="description" content="Aurora — Solana developer, open source for the ecosystem: an issue that became a merged upstream release, a v1-transaction CLI fix that reached mainnet with Agave v4.4, and the idl-drift / declare-id-drift actions. Also docrot-scan-api: agent-callable link-rot scanner for public GitHub docs, US$1 per completed scan, self-serve Solana Pay checkout. First pilot scan free.">
   <link rel="canonical" href="https://codebyaurora.com/">
 
   <!-- Open Graph (link previews in HN, Twitter, Slack, GitHub comments) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Aurora — Solana developer, open source for the ecosystem">
-  <meta property="og:description" content="Solana open-source work you can verify: an issue that became a merged upstream release (senzenn v0.2.0), a byte-identical Agave v4.3 backport awaiting review, and the idl-drift / declare-id-drift actions — plus docrot-scan-api, an agent-callable link-rot scanner with self-serve checkout. First pilot scan free.">
+  <meta property="og:description" content="Solana open-source work you can verify: an issue that became a merged upstream release (senzenn v0.2.0), a v1-transaction CLI fix that reached mainnet with Agave v4.4, and the idl-drift / declare-id-drift actions — plus docrot-scan-api, an agent-callable link-rot scanner with self-serve checkout. First pilot scan free.">
   <meta property="og:url" content="https://codebyaurora.com/">
   <meta property="og:site_name" content="Aurora — codebyaurora.com">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Aurora — Solana developer, open source for the ecosystem">
-  <meta name="twitter:description" content="Solana open-source work you can verify: an issue that became a merged upstream release (senzenn v0.2.0), a byte-identical Agave v4.3 backport awaiting review, and the idl-drift / declare-id-drift actions — plus docrot-scan-api, an agent-callable link-rot scanner with self-serve checkout. First pilot scan free.">
+  <meta name="twitter:description" content="Solana open-source work you can verify: an issue that became a merged upstream release (senzenn v0.2.0), a v1-transaction CLI fix that reached mainnet with Agave v4.4, and the idl-drift / declare-id-drift actions — plus docrot-scan-api, an agent-callable link-rot scanner with self-serve checkout. First pilot scan free.">
 
   <!-- Sitemap discovery -->
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
@@ -452,7 +452,13 @@
             My backport request <a href="https://github.com/anza-xyz/agave/pull/16261" target="_blank" rel="noopener" style="color: var(--accent);">agave#16261</a>
             was replaced by the maintainers' own automation backport
             <a href="https://github.com/anza-xyz/agave/pull/16276" target="_blank" rel="noopener" style="color: var(--accent);">#16276</a>
-            — verified byte-identical to my patch, open and awaiting review (not claimed as merged).
+            — verified byte-identical to my patch and approved by a maintainer, then closed unmerged on 04.11.:
+            mainnet had adopted v4.4, which already carries the fix from upstream
+            <a href="https://github.com/anza-xyz/agave/pull/14805" target="_blank" rel="noopener" style="color: var(--accent);">#14805</a>.
+            Re-checked 22.11. against the tags: <code>v4.4.1</code> reads v1 transactions
+            (<code>Some(1)</code>), <code>v4.3.2</code> still pins <code>Some(0)</code>.
+            So the change reached users through the v4.4 line, not through a v4.3 backport —
+            the backport is closed, not merged.
           </p>
           <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
             Measured demand behind this niche:
@@ -467,13 +473,16 @@
         <div class="qs-item" style="background: var(--code-bg); padding: 18px; border-radius: 8px; border: 1px solid var(--card-border);">
           <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
             <h3 style="font-size: 16px; color: #fff;">Upstream contributions</h3>
-            <span class="code-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--warning);">Open, awaiting review</span>
+            <span class="code-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--warning);">Open, no review yet</span>
           </div>
           <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
-            <a href="https://github.com/anza-xyz/agave/pull/16276" target="_blank" rel="noopener" style="color: var(--accent);">agave#16276</a>
-            — the automation backport of my v4.3 v1-display fix (#16261), patch verified byte-identical, awaiting maintainer review.
             <a href="https://github.com/LiteSVM/litesvm/pull/444" target="_blank" rel="noopener" style="color: var(--accent);">LiteSVM#444</a>
-            — external-memory accounting in the Node binding, fixing GC starvation.
+            — external-memory accounting in the Node binding, fixing GC starvation: open since 04.11.,
+            no comment and no review yet.
+            <a href="https://github.com/anza-xyz/agave/pull/16276" target="_blank" rel="noopener" style="color: var(--accent);">agave#16276</a>
+            — the maintainers' byte-identical backport of my v1-display fix (#16261) was approved,
+            then closed unmerged on 04.11. because mainnet moved to v4.4, which already has the fix;
+            five IDL-drift findings reported upstream are also still open with no maintainer reply.
           </p>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <a href="https://github.com/auroraxo?tab=repositories&amp;language=&amp;q=&amp;sort=updated" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size: 12px; padding: 5px 12px;">All repositories</a>

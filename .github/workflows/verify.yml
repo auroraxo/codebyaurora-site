@@ -39,3 +39,12 @@ jobs:
           assert Path("solana-findings/evidence/issues-2026-10.json").is_file()
           print("All design invariants hold")
           EOF
+      - name: Re-read every published status claim against GitHub
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Exit 1 = the page asserts something the live world no longer supports
+        # (correct the page, do not weaken the claim).
+        # Exit 2 = the claim could not be re-read; that is also a failure on
+        # purpose, so a token or network problem can never be mistaken for a
+        # clean check.
+        run: node tools/check-claims.mjs

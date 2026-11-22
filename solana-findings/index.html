@@ -136,14 +136,20 @@
     <div class="code-box">$ md5sum evidence/03-adoption/agave-pr162*-code.patch
 evidence/03-adoption/agave-pr16261-code.patch  md5 2e11e5c332fae7a534b430629975ef3b
 evidence/03-adoption/agave-pr16276-code.patch  md5 2e11e5c332fae7a534b430629975ef3b</div>
-    <p>Status of agave#16276 <span class="badge badge-open">open, not merged</span>
+    <p>Status of agave#16276 <span class="badge badge-open">closed unmerged, superseded</span>
     — APPROVED by an Anza maintainer 2026-10-22 (read from the reviews API 2026-10-25),
-    awaiting merge. I am not claiming it as merged until it is.</p>
+    then closed unmerged on 2026-11-04 when mainnet adopted v4.4: the fix was already
+    upstream in <a href="https://github.com/anza-xyz/agave/pull/14805">agave#14805</a>.
+    Re-checked 2026-11-22 against the tags: <code>v4.4.1</code> reads v1 transactions
+    (<code>max_supported_transaction_version: Some(1)</code>), <code>v4.3.2</code> still pins
+    <code>Some(0)</code>. The change reached users through the v4.4 line — the v4.3 backport
+    itself was closed, never merged, and is not claimed as merged here.</p>
 
     <h2>Findings reported upstream</h2>
     <p>Five IDL-drift findings reported to the projects behind live mainnet programs
     (jup-ag rfq-webhook-toolkit#95, raydium-idl#6, staking-options#73, marinade-ts-sdk#111,
-    openbook-v2#294). States as read 2026-10-25: all open, none with a maintainer reply yet.
+    openbook-v2#294). States as re-read 2026-11-22: all five still open, and all four
+    replies in those threads are my own — still no maintainer reply.
     One finding (senzenn) became a merged release — the full chain
     with exact timestamps is in
     <a href="https://github.com/auroraxo/solana-demand-dossier#finding-3--the-gap-gets-found-and-fixed-upstream-in-public">the dossier</a>

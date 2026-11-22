@@ -12,12 +12,22 @@ every change reviewable and drift diffable.
 ## Contents
 
 - `index.html` — single-file landing page (no build step, no dependencies).
+- `claims.json` + `tools/check-claims.mjs` — the live status-claim guard.
 
 ## Design rules (learned the hard way)
 
 - **Never hardcode the auditor version.** The header badge fetches `/health`
   client-side and renders `Auditor v<version> Live`. The release button links
   `/releases/latest`, not a pinned tag.
+- **Every external status claim is re-read in CI.** On 2026-11-22 the homepage
+  still said an Agave backport was "open and awaiting review" — it had been
+  closed unmerged on 2026-11-04, so the page was wrong for 18 days with nothing
+  failing. That is the same silent-lie failure the bullet above describes.
+  `claims.json` pins each published claim (PR/issue state, release, exact
+  wording) to a check date, and `tools/check-claims.mjs` re-reads them live
+  against the GitHub API as a CI step. Exit 1 means the page no longer matches
+  reality: correct the page, never weaken the claim. Exit 2 (could not read)
+  fails CI too, so an unverifiable claim is never mistaken for a verified one.
 - **Bind to the real payload schema.** `fetchTelemetry()` reads
   `{node, resources: {cpu_count, load_avg, memory, disk}}` from `/telemetry`.
   When the collector schema changes, this file must change with it — the
