@@ -48,3 +48,8 @@ jobs:
         # purpose, so a token or network problem can never be mistaken for a
         # clean check.
         run: node tools/check-claims.mjs
+      - name: Re-read every published link (external + own routes)
+        # Exit 1 = a link the page publishes no longer resolves (fix the page).
+        # Exit 2 = a link could not be checked (bot wall, network) — also a
+        # failure on purpose, so an unchecked link never counts as checked.
+        run: node tools/check-links.mjs

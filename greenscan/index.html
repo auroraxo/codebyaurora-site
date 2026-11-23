@@ -195,12 +195,13 @@ python3 greenscan.py --base-url https://n8n.example.com</pre>
     <section class="card" style="margin-top:16px;">
       <h3>Why this exists</h3>
       <p style="font-size:14px;color:var(--text-muted);">
-        Built after reading two threads where n8n operators priced their own pain:
-        <a href="https://community.n8n.io/t/310860">community.n8n.io/t/310860</a>
-        (a WhatsApp cadence where 13 touches were burned by HTTP 500s routed through
-        <code>continueRegularOutput</code>) and
-        <a href="https://community.n8n.io/t/316526">community.n8n.io/t/316526</a>
-        (cost and detection time). Watchflow, Midwatch and OutcomeGuard already sell
+        Built after reading the thread where n8n operators priced their own pain:
+        <a href="https://community.n8n.io/t/316526">community.n8n.io/t/316526</a>.
+        From it: <strong>$2,500–$8,000</strong> per incident, <strong>48 h to 3 weeks</strong>
+        until anyone noticed, <strong>6–15 billable hours</strong> to find it — and one
+        clinic whose WhatsApp follow-up workflow was saved with the trigger disabled,
+        so ~40 reminders over ~20 days never sent and only a patient asking why she
+        had heard nothing surfaced it. Watchflow, Midwatch and OutcomeGuard already sell
         continuous monitoring at $19–$99/mo and they're the right tool if you need
         alerts. greenscan is the step before that: find out in 30 seconds whether you
         have the problem at all.
